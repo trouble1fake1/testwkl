@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: 'default'  # Specifies the self-hosted agent pool with the name 'default'
+  name: 'on-premagent'  # Specifies the self-hosted agent pool with the name 'default'
 
 strategy:
   matrix:
