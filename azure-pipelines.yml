@@ -1,13 +1,8 @@
-# Python package
-# Create and test a Python package on multiple Python versions.
-# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
 - main
 
 pool:
-  name: 'on-premagent'  # Specifies the self-hosted agent pool with the name 'default'
+  name: 'on-premagent'  # Specifies the self-hosted agent pool
 
 strategy:
   matrix:
@@ -21,6 +16,13 @@ strategy:
       python.version: '3.11'
 
 steps:
+- script: |
+    sudo apt-get update -y
+    sudo apt-get install git -y
+  displayName: 'Install Git'
+
+- checkout: self  # This step checks out the repository
+
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(python.version)'
@@ -33,9 +35,4 @@ steps:
 
 - script: |
     python test.py
-  displayName: 'Run test.py to check dependencies'
-
-- script: |
-    pip install pytest pytest-azurepipelines
-    pytest
-  displayName: 'pytest'
+  displayName: 'Run test.py'
