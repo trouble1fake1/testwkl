@@ -4,35 +4,18 @@ trigger:
 pool:
   name: 'on-premagent'  # Specifies the self-hosted agent pool
 
-strategy:
-  matrix:
-    Python38:
-      python.version: '3.8'
-    Python39:
-      python.version: '3.9'
-    Python310:
-      python.version: '3.10'
-    Python311:
-      python.version: '3.11'
-
 steps:
 - script: |
     sudo apt-get update -y
-    sudo apt-get install git -y
+    sudo apt-get install git -y  # Install Git if not already available
   displayName: 'Install Git'
 
-- checkout: self  # This step checks out the repository
+- script: |
+    # Install Python 3.11 if not installed
+    sudo apt install python3
+  displayName: 'Install Python 3.11 if not present'
 
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
 
 - script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
-
-- script: |
-    python test.py
+    python3 test.py  # Run test.py
   displayName: 'Run test.py'
