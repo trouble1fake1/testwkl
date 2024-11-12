@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  name: 'on-premagent'  # Specifies the self-hosted agent pool
+  name: 'on-premagent2'  # Specifies the self-hosted agent pool
 
 steps:
 - script: |
