@@ -4,12 +4,6 @@ trigger:
 pool:
   name: 'on-premagent'  # Specifies the self-hosted agent pool
 
-steps:
-- script: |
-    sudo apt-get update -y
-    sudo apt-get install git -y  # Install Git if not already available
-  displayName: 'Install Git'
-
 - script: |
     # Install Python 3.11 if not installed
     sudo apt install python3
