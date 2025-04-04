@@ -38,7 +38,7 @@ spec:
         - name: acr-secret
       containers:
         - name: nodejs-app
-          image: wklcicd.azurecr.io/simple-nodejs-app:v1
+          image: wklcicd.azurecr.io/nodejs-app:v2
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
