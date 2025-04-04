@@ -1,28 +1,28 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: stg
+  name: staging
 ---
 # Service Account for nginx-pod
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: pod1-sa
-  namespace: stg
+  namespace: staging
 ---
 # Service Account for internal-pod
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: internal-sa
-  namespace: stg
+  namespace: staging
 ---
 # Pod 1
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nodejs-app-deployment
-  namespace: stg
+  namespace: staging
 spec:
   replicas: 1
   selector:
@@ -38,7 +38,7 @@ spec:
         - name: acr-secret
       containers:
         - name: nodejs-app
-          image: wklcicd.azurecr.io/nodejs-app:v2
+          image: wklcicd.azurecr.io/simple-nodejs-app:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
@@ -48,21 +48,22 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nodejs-app-service
-  namespace: stg
+  namespace: staging
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: nodejs-app
   ports:
     - port: 80
       targetPort: 3000
+      nodePort: 30081  
 ---
 # Pod 2 - internal pod
 apiVersion: v1
 kind: Pod
 metadata:
   name: internal-pod
-  namespace: stg
+  namespace: staging
   labels:
     app: internal
 spec:
@@ -76,7 +77,7 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: stg
+  namespace: staging
   name: pod1-role
 rules:
   - apiGroups: [""]
@@ -91,11 +92,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: pod1-rolebinding
-  namespace: stg
+  namespace: staging
 subjects:
   - kind: ServiceAccount
     name: pod1-sa
-    namespace: stg
+    namespace: staging
 roleRef:
   kind: Role
   name: pod1-role
@@ -105,7 +106,7 @@ roleRef:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: stg
+  namespace: staging
   name: internal-role
 rules:
   - apiGroups: [""]
@@ -117,11 +118,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: internal-rolebinding
-  namespace: stg
+  namespace: staging
 subjects:
   - kind: ServiceAccount
     name: internal-sa
-    namespace: stg
+    namespace: staging
 roleRef:
   kind: Role
   name: internal-role
