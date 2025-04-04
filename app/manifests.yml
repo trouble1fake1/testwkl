@@ -50,13 +50,12 @@ metadata:
   name: nodejs-app-service
   namespace: staging
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: nodejs-app
   ports:
     - port: 80
       targetPort: 3000
-      nodePort: 30081  
 ---
 # Pod 2 - internal pod
 apiVersion: v1
