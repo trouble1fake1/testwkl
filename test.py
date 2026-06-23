@@ -1,31 +1,32 @@
-import sys
+import requests
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def check_requirements():
-    # Load requirements from requirements.txt
-    try:
-        with open("requirements.txt", "r") as f:
-            requirements = [line.strip().split("==")[0] for line in f if line.strip() and not line.startswith("#")]
-    except FileNotFoundError:
-        print("Error: requirements.txt file not found.")
-        sys.exit(1)
+size_mb = 200
 
-    # Check if each requirement can be imported
-    missing_packages = []
-    for package in requirements:
-        try:
-            __import__(package)
-        except ImportError:
-            missing_packages.append(package)
+data = "b" * (size_mb * 1024 * 1024)
 
-    # Print result
-    if missing_packages:
-        print("The following packages are missing or failed to import:")
-        for pkg in missing_packages:
-            print(f"- {pkg}")
-        sys.exit(1)
-    else:
-        print("All requirements are installed and can be imported successfully.")
+import requests
 
-if __name__ == "__main__":
-    check_requirements()
- 
+burp0_url = "https://mars-dev-phx-sqa-ui.k8s-test.bi.ghdna.io:443/samples?_row=0&uuids=ec793882-8456-4ecf-a3ba-b84f5b296085&page=1"
+burp0_cookies = {"__Host-authjs.csrf-token": "34030a2f65e045329bf788d00b84d256bb7743bd1f981e60e75170b9bdfe9666%7C79bdabcaea833aa7f16c9af7981f1f962d27709f97d27934c86c9b85b3a01997", "__Secure-authjs.callback-url": "https%3A%2F%2Fmars-dev-phx-sqa-ui.k8s-test.bi.ghdna.io", "__Secure-authjs.session-token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiVEJfRG92dWh3RHZUTlFFSURsYWEyQ2MySVEyUTFqdlV1dS1sUlpjd0hiaHlTOFhQNEpPSXNwWE8zNkEwWHdKWE5KR2poMGczcThxZU5wWXlpZjY4NXcifQ..E60GmddRM4Q9iGDKlNfSZg.-Ws7uf0L2o6kT9IdXx2uFb8ijrk20tY1zzmOHMgMd5q6pscy8H59AWPf8XgPiDQzHzLAzWTA0knSokVyhLbKw3UV3BPLTHRHUiYQNM0vY-OAsrgX4Q2VwkEJa41myp7oo1YoVowAMAILAphkQZpMV_3DAQa6_ZjvqSsZxKmOfFISunoNjlz-Gt-n5ec8FPE2ewjKb2UWTjOVqecTRn6DLbrrnm2DNr9iezrW8_5pYaEW7tUnYI_H7WE-BWVmMzBKrNULCP_Nn3HG6pUW_VabkUU1P3KkSb3FtiVNxfhpE15FQuF7eIdAZROzzuFmZhPNTcqra2yEDShlSpnUzXMHBTHaJaw-Gvg6-O63SUKA-BM4NrVFwdelRD51XRGHlrLrXmCZDS17Edt7arQoz5gJG8ccxhieApGTw8jNuZcStQyfm0zD4QrScR6Qa1SaUwE9YJN4yvWtEefqz6piam6WZGgJK9Xx5ixKIgrfDHbW-n32wRu0vrveOU0uvZgylRBbfTNnSyuRm93kYGfpIu7p40yRndOePP8rm81Z8XcOpw8.NwR0TCtm5DW1GMYi8cDULJHbmbTEr1voeHWYnywU2Ag"}
+burp0_headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:152.0) Gecko/20100101 Firefox/152.0", "Accept": "text/x-component", "Accept-Language": "en-US,en;q=0.9", "Accept-Encoding": "gzip, deflate, br", "Referer": "https://mars-dev-phx-sqa-ui.k8s-test.bi.ghdna.io/samples?_row=0&uuids=ec793882-8456-4ecf-a3ba-b84f5b296085&page=1", "Next-Action": "0c7b0422f66849db2ab29f26cb455ea96298a4e2", "Next-Router-State-Tree": "%5B%22%22%2C%7B%22children%22%3A%5B%22(authenticated)%22%2C%7B%22children%22%3A%5B%22(system)%22%2C%7B%22children%22%3A%5B%5B%22entity%22%2C%22samples%22%2C%22c%22%5D%2C%7B%22children%22%3A%5B%22__PAGE__%3F%7B%5C%22_row%5C%22%3A%5C%220%5C%22%2C%5C%22uuids%5C%22%3A%5C%22ec793882-8456-4ecf-a3ba-b84f5b296085%5C%22%2C%5C%22page%5C%22%3A%5C%221%5C%22%7D%22%2C%7B%7D%5D%7D%5D%7D%5D%7D%5D%7D%2Cnull%2Cnull%2Ctrue%5D", "Content-Type": "text/plain;charset=UTF-8", "Origin": "https://mars-dev-phx-sqa-ui.k8s-test.bi.ghdna.io", "Sec-Fetch-Dest": "empty", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Site": "same-origin", "Priority": "u=0", "Te": "trailers"}
+burp0_json=["BIOT-12882", data]
+
+import requests
+
+proxies = {
+    "http": "socks5h://127.0.0.1:8000",
+    "https": "socks5h://127.0.0.1:8000",
+}
+
+r = requests.post(burp0_url, 
+              headers=burp0_headers, 
+              cookies=burp0_cookies, 
+              proxies=proxies,
+              timeout=120,
+              json=burp0_json
+)
+
+
+print(r.status_code)
