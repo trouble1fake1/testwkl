@@ -1,12 +1,7 @@
 import requests
-import urllib3
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
 size_mb = 200
 
 data = "b" * (size_mb * 1024 * 1024)
-
-import requests
 
 burp0_url = "https://mars-dev-phx-sqa-ui.k8s-test.bi.ghdna.io:443/samples?_row=0&uuids=ec793882-8456-4ecf-a3ba-b84f5b296085&page=1"
 burp0_cookies = {"__Host-authjs.csrf-token": "34030a2f65e045329bf788d00b84d256bb7743bd1f981e60e75170b9bdfe9666%7C79bdabcaea833aa7f16c9af7981f1f962d27709f97d27934c86c9b85b3a01997", "__Secure-authjs.callback-url": "https%3A%2F%2Fmars-dev-phx-sqa-ui.k8s-test.bi.ghdna.io", "__Secure-authjs.session-token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwia2lkIjoiVEJfRG92dWh3RHZUTlFFSURsYWEyQ2MySVEyUTFqdlV1dS1sUlpjd0hiaHlTOFhQNEpPSXNwWE8zNkEwWHdKWE5KR2poMGczcThxZU5wWXlpZjY4NXcifQ..E60GmddRM4Q9iGDKlNfSZg.-Ws7uf0L2o6kT9IdXx2uFb8ijrk20tY1zzmOHMgMd5q6pscy8H59AWPf8XgPiDQzHzLAzWTA0knSokVyhLbKw3UV3BPLTHRHUiYQNM0vY-OAsrgX4Q2VwkEJa41myp7oo1YoVowAMAILAphkQZpMV_3DAQa6_ZjvqSsZxKmOfFISunoNjlz-Gt-n5ec8FPE2ewjKb2UWTjOVqecTRn6DLbrrnm2DNr9iezrW8_5pYaEW7tUnYI_H7WE-BWVmMzBKrNULCP_Nn3HG6pUW_VabkUU1P3KkSb3FtiVNxfhpE15FQuF7eIdAZROzzuFmZhPNTcqra2yEDShlSpnUzXMHBTHaJaw-Gvg6-O63SUKA-BM4NrVFwdelRD51XRGHlrLrXmCZDS17Edt7arQoz5gJG8ccxhieApGTw8jNuZcStQyfm0zD4QrScR6Qa1SaUwE9YJN4yvWtEefqz6piam6WZGgJK9Xx5ixKIgrfDHbW-n32wRu0vrveOU0uvZgylRBbfTNnSyuRm93kYGfpIu7p40yRndOePP8rm81Z8XcOpw8.NwR0TCtm5DW1GMYi8cDULJHbmbTEr1voeHWYnywU2Ag"}
